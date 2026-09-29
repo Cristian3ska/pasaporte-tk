@@ -1,0 +1,203 @@
+@import 'leaflet/dist/leaflet.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ════════════════════════════════
+   GLOBAL BASE
+════════════════════════════════ */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+}
+
+body {
+  @apply font-sans bg-gray-50 text-gray-900;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ════════════════════════════════
+   COMPONENT LIBRARY
+════════════════════════════════ */
+@layer components {
+
+  /* ── Buttons ── */
+  .btn-primary {
+    @apply flex items-center justify-center gap-2 w-full py-4 px-6
+           bg-verde-900 text-white font-semibold rounded-2xl text-base
+           transition-all duration-200 active:scale-95 hover:bg-verde-800
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply flex items-center justify-center gap-2 w-full py-3.5 px-6
+           border-2 border-verde-900 text-verde-900 font-semibold rounded-2xl text-base
+           transition-all duration-200 active:scale-95 hover:bg-verde-50;
+  }
+
+  .btn-ghost {
+    @apply flex items-center gap-2 text-verde-900 font-medium text-sm
+           hover:text-verde-700 transition-colors;
+  }
+
+  /* ── Cards ── */
+  .card {
+    @apply bg-white rounded-3xl shadow-card overflow-hidden;
+  }
+
+  .card-padded {
+    @apply bg-white rounded-3xl shadow-card p-5;
+  }
+
+  /* ── Chips / Badges ── */
+  .chip {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .chip-green { @apply chip bg-verde-100 text-verde-800; }
+  .chip-cafe  { @apply chip bg-cafe-100 text-cafe-800; }
+  .chip-gray  { @apply chip bg-gray-100 text-gray-600; }
+
+  /* ── Typography ── */
+  .section-title    { @apply text-lg font-bold text-gray-900; }
+  .section-subtitle { @apply text-sm text-gray-500 mt-0.5; }
+
+  /* ── Bottom Navigation (mobile) ── */
+  .bottom-nav-item {
+    @apply flex flex-col items-center gap-0.5 transition-all duration-200;
+  }
+
+}
+
+/* ════════════════════════════════
+   LEAFLET OVERRIDES
+════════════════════════════════ */
+.leaflet-container {
+  font-family: 'Inter', sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
+}
+
+.leaflet-control-zoom { display: none !important; }
+
+/* ════════════════════════════════
+   ANIMATIONS
+════════════════════════════════ */
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1);   opacity: 1;   }
+  50%       { transform: scale(1.4); opacity: 0.7; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.animate-slide-up  { animation: slideUp 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.animate-fade-in   { animation: fadeIn 0.4s ease; }
+.animate-pulse-dot { animation: pulse-dot 2s infinite; }
+
+/* ════════════════════════════════
+   SCROLLBAR UTILITIES
+════════════════════════════════ */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom thin scrollbar for sidebar */
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #e5e7eb;
+  border-radius: 99px;
+}
+
+/* ════════════════════════════════
+   BOTTOM SHEET (mobile modal)
+════════════════════════════════ */
+.bottom-sheet-overlay {
+  @apply fixed inset-0 bg-black/40 z-40 backdrop-blur-sm;
+  animation: fadeIn 0.2s ease;
+}
+
+.bottom-sheet {
+  @apply fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50
+         max-h-[85vh] overflow-y-auto;
+  animation: slideUp 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 -4px 40px rgba(0,0,0,0.15);
+}
+
+/* ════════════════════════════════
+   SIDEBAR (desktop navigation)
+════════════════════════════════ */
+.sidebar-active {
+  @apply bg-verde-50 text-verde-900;
+}
+
+/* ════════════════════════════════
+   SKELETON LOADER
+════════════════════════════════ */
+.skeleton {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ════════════════════════════════
+   RESPONSIVE LAYOUT HELPERS
+════════════════════════════════ */
+
+/* Max-width container for page sections */
+.page-container {
+  @apply px-4 sm:px-6 lg:px-8 xl:px-10 max-w-screen-2xl mx-auto;
+}
+
+/* Main content area adjusts to sidebar width */
+.main-content {
+  @apply flex-1 min-h-screen;
+}
+
+/* ════════════════════════════════
+   MAP RESPONSIVE
+════════════════════════════════ */
+#map {
+  min-height: 300px;
+  height: 100%;
+}
+
+@media (min-width: 1024px) {
+  #map {
+    border-radius: 0;
+  }
+}
+
+/* ════════════════════════════════
+   PRINT STYLES
+════════════════════════════════ */
+@media print {
+  nav, aside, .bottom-sheet { display: none !important; }
+  main { margin: 0 !important; }
+}
